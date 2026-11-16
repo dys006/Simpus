@@ -73,4 +73,19 @@ class PerpustakaanTest {
             perpus.tambahAnggota(Anggota("A002", "Bunga", "bunga-mail.com"))
         }
     }
+
+    @Test
+    fun `meminjam lebih dari 3 item sekaligus harus gagal`() {
+        perpus.tambahItem(Buku("B002", "Buku 2", 2020, "Penulis 2", "111"))
+        perpus.tambahItem(Buku("B003", "Buku 3", 2021, "Penulis 3", "222"))
+        perpus.tambahItem(Buku("B004", "Buku 4", 2022, "Penulis 4", "333"))
+
+        perpus.pinjam("B001", "A001")
+        perpus.pinjam("B002", "A001")
+        perpus.pinjam("B003", "A001")
+
+        assertFailsWith<BatasPinjamTerlampauiException> {
+            perpus.pinjam("B004", "A001")
+        }
+    }
 }

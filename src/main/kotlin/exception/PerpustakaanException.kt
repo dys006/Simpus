@@ -19,3 +19,6 @@ class PeminjamanTidakDitemukanException(id: String) :
 
 class InputTidakValidException(pesan: String) :
     PerpustakaanException(pesan)
+
+class BatasPinjamTerlampauiException(anggotaId: String, maks: Int = 3) :
+    PerpustakaanException("Anggota '$anggotaId' sudah mencapai batas maksimal peminjaman ($maks item).")
