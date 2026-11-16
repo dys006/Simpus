@@ -43,6 +43,11 @@ class Perpustakaan : Pencarian {
         if (!anggotas.containsKey(anggotaId)) throw AnggotaTidakDitemukanException(anggotaId)
         if (!item.tersedia) throw ItemTidakTersediaException(item.judul)
 
+        val jumlahPinjamAktif = peminjamans.count { it.anggotaId == anggotaId && it.sedangDipinjam }
+        if (jumlahPinjamAktif >= 3) {
+            throw BatasPinjamTerlampauiException(anggotaId, 3)
+        }
+
         item.tandaiDipinjam()
         val p = Peminjaman(itemId = itemId, anggotaId = anggotaId)
         peminjamans.add(p)
