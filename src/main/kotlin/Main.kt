@@ -4,6 +4,7 @@ import model.Buku
 import model.Dvd
 import model.Majalah
 import service.Perpustakaan
+import model.Ebook
 
 private val perpus = Perpustakaan()
 
@@ -64,12 +65,19 @@ private fun bacaAngka(prompt: String): Int {
         println("❗ Harap masukkan angka yang valid (contoh: 2024).")
     }
 }
+private fun bacaDesimal(prompt: String): Double {
+    while (true) {
+        val angka = bacaInput(prompt).toDoubleOrNull()
+        if (angka != null && angka > 0) return angka
+        println("! Harap masukkan angka desimal yang valid (contoh: 15.5).")
+    }
+}
 
 private fun tambahItemMenu() {
-    println("\nJenis item: 1) Buku  2) Majalah  3) DVD")
+    println("\nJenis item: 1) Buku  2) Majalah  3) DVD 4) Ebook")
     val jenis = bacaInput("Pilih jenis: ")
-    if (jenis !in listOf("1", "2", "3")) {
-        println("❗ Jenis tidak valid. Pilih 1, 2, atau 3.")
+    if (jenis !in listOf("1", "2", "3", "4")) {
+        println("❗ Jenis tidak valid. Pilih 1, 2, 3, atau 4.")
         return
     }
     val id = bacaInput("ID       : ")
@@ -79,7 +87,8 @@ private fun tambahItemMenu() {
     val item = when (jenis) {
         "1" -> Buku(id, judul, tahun, bacaInput("Penulis  : "), bacaInput("ISBN     : "))
         "2" -> Majalah(id, judul, tahun, bacaAngka("Edisi    : "), bacaInput("Bulan    : "))
-        else -> Dvd(id, judul, tahun, bacaAngka("Durasi   : "), bacaInput("Sutradara: "))
+        "3" -> Dvd(id, judul, tahun, bacaAngka("Durasi   : "), bacaInput("Sutradara: "))
+        else -> Ebook(id, judul, tahun, bacaDesimal("Ukuran (MB): "), bacaInput("Format (PDF/EPUB): "))
     }
 
     jalankanAman {
